@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using System;
 
-public class CardController : MonoBehaviour
+public class CardController : MonoBehaviour, IPointerEnterHandler,  IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
 
     public Card card;
-    public Image illustration;
+    public Image illustration, image;
     public TextMeshProUGUI cardName, health, manaCost, damage;
+    private Transform originalParent;
 
     private void Awake()
     {
-        Initialize(card);
+            image = GetComponent<Image>();
     }
     // Start is called before the first frame update
     private void Start()
@@ -23,16 +26,89 @@ public class CardController : MonoBehaviour
 
     public void Initialize(Card card)
     {
+        this.card = card;
         illustration.sprite = card.illustration;
         cardName.text = card.cardName;
         manaCost.text = card.manaCost.ToString();
         damage.text = card.damage.ToString();
         health.text = card.health.ToString();
+        originalParent = transform.parent;
     }
 
-    // Update is called once per frame
-    private void Update()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if(originalParent.name == $"Player{card.ownerID + 1}PlayArea")
+        {
+
+        }
+        else
+        {
+        transform.SetParent(transform.root);
+        image.raycastTarget = false;
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+
+        if (originalParent.name == $"Player{card.ownerID + 1}PlayArea")
+        {
+
+        }
+        else
+        {
+            image.raycastTarget = true;
+            AnalysePointerUp(eventData);
+        }
+    }
+
+    private void AnalysePointerUp(PointerEventData eventData)
+    {
+       if(eventData.pointerEnter != null && eventData.pointerEnter.name == $"Player{card.ownerID+1}PlayArea")
+            if( PlayerManager.instance.FindPlayerByID(card.ownerID).mana >= card.manaCost)
+        {
+                PlayCard(eventData.pointerEnter.transform);
+        }
+            else
+            {
+                ReturnToHand();
+            }
+       else
+        {
+            ReturnToHand();
+        }
+      
+    }
+   
+
+    private void PlayCard(Transform playArea)
+    {
+        transform.SetParent(playArea);
+        originalParent = playArea;
+        transform.localPosition = Vector3.zero;
+
+    }
+
+    private void ReturnToHand()
+    {
+        transform.SetParent(originalParent);
+        transform.localPosition = Vector3.zero;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (transform.parent == originalParent) return;
+
+        transform.position = eventData.position;
     }
 }

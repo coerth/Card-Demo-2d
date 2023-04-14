@@ -14,9 +14,35 @@ public class PlayerManager : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        UIManager.instance.UpdateValues(PlayerList[0], PlayerList[1]);
+    }
+
     internal void AssignTurn(int currentPlayerTurn)
     {
-        Player player = PlayerList.Find(x => x.ID == currentPlayerTurn);
-        player.myTurn = true;
+        FindPlayerByID(currentPlayerTurn).myTurn = true;
+        
+    }
+
+    public Player FindPlayerByID(int ID)
+    {
+        return PlayerList.Find(x => x.ID == ID);
+    }
+
+    public void DamagePlayer(int ID, int damage)
+    {
+        Player player = FindPlayerByID(ID);
+
+        player.health -= damage;
+        if (player.health <= 0)
+        {
+            PlayerLost(ID);
+        }
+    }
+
+    private void PlayerLost(int iD)
+    {
+        
     }
 }
