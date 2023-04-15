@@ -21,7 +21,14 @@ public class PlayerManager : MonoBehaviour
 
     internal void AssignTurn(int currentPlayerTurn)
     {
-        FindPlayerByID(currentPlayerTurn).myTurn = true;
+        foreach (Player player in PlayerList)
+        {
+            player.myTurn = player.ID == currentPlayerTurn;
+            if (player.myTurn) player.mana = 5;
+        }
+
+        
+        
         
     }
 

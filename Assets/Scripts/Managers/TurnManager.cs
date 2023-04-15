@@ -13,19 +13,27 @@ public class TurnManager : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        StartTurnGamePlay(0);
+    }
+
     public void StartTurnGamePlay(int playerID)
     {
         currentPlayerTurn = playerID;
-        PlayerManager.instance.AssignTurn(currentPlayerTurn);
+        StartTurn();
     }
 
     public void StartTurn()
     {
+        GameplayUIController.instance.UpdateCurrentPlayerTurn(currentPlayerTurn);
+        PlayerManager.instance.AssignTurn(currentPlayerTurn);
 
     }
 
     public void EndTurn()
     {
-
+        currentPlayerTurn = currentPlayerTurn == 0 ? 1 : 0;
+        StartTurn();
     }
 }
