@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
    public static PlayerManager instance;
     
-    public List<Player> PlayerList = new List<Player>();
+    public List<Player> players = new List<Player>();
 
     private void Awake()
     {
@@ -16,12 +16,12 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        UIManager.instance.UpdateValues(PlayerList[0], PlayerList[1]);
+        UIManager.instance.UpdateValues(players[0], players[1]);
     }
 
     internal void AssignTurn(int currentPlayerTurn)
     {
-        foreach (Player player in PlayerList)
+        foreach (Player player in players)
         {
             player.myTurn = player.ID == currentPlayerTurn;
             if (player.myTurn) player.mana = 5;
@@ -34,7 +34,7 @@ public class PlayerManager : MonoBehaviour
 
     public Player FindPlayerByID(int ID)
     {
-        return PlayerList.Find(x => x.ID == ID);
+        return players.Find(x => x.ID == ID);
     }
 
     public void DamagePlayer(int ID, int damage)
@@ -42,6 +42,9 @@ public class PlayerManager : MonoBehaviour
         Player player = FindPlayerByID(ID);
 
         player.health -= damage;
+
+        UIManager.instance.UpdateHealthValues(players[0].health, players[1].health);
+
         if (player.health <= 0)
         {
             PlayerLost(ID);
@@ -51,5 +54,11 @@ public class PlayerManager : MonoBehaviour
     private void PlayerLost(int iD)
     {
         
+    }
+
+    internal void SpendMana(int ownerID, int manaCost)
+    {
+        FindPlayerByID(ownerID).mana -= manaCost;
+        UIManager.instance.UpdateManaValues(players[0].mana, players[1].mana);
     }
 }

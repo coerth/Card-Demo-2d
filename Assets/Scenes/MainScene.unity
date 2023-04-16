@@ -529,27 +529,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cards:
-  - cardName: Test Card 1
+  - cardName: Goblin
+    health: 2
+    damage: 1
+    manaCost: 1
+    ownerID: 0
+    illustration: {fileID: 7482667652216324306, guid: 0f57711a25eaae94bba61aa38db9b885, type: 3}
+  - cardName: Orc
     health: 5
-    damage: 7
+    damage: 2
     manaCost: 2
     ownerID: 0
     illustration: {fileID: 7482667652216324306, guid: 0f57711a25eaae94bba61aa38db9b885, type: 3}
-  - cardName: Test Card 2
-    health: 5
-    damage: 7
-    manaCost: 2
+  - cardName: Pegasus
+    health: 10
+    damage: 1
+    manaCost: 3
     ownerID: 0
     illustration: {fileID: 7482667652216324306, guid: 0f57711a25eaae94bba61aa38db9b885, type: 3}
-  - cardName: Test Card 3
-    health: 5
-    damage: 7
-    manaCost: 2
+  - cardName: Fireball
+    health: 0
+    damage: 3
+    manaCost: 1
     ownerID: 0
     illustration: {fileID: 7482667652216324306, guid: 0f57711a25eaae94bba61aa38db9b885, type: 3}
   player1Hand: {fileID: 1950475832}
-  player2Hand: {fileID: 0}
+  player2Hand: {fileID: 1183408085}
   cardControllerPrefab: {fileID: -1444694407838539912, guid: f46229d7668be8b4eb79ce9080c68fea, type: 3}
+  player1Cards: []
+  player2Cards: []
 --- !u!114 &251841579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,12 +570,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17922376fe4f85b4f9e3ead42d638c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerList:
-  - health: 15
-    mana: 10
+  players:
+  - health: 10
+    mana: 5
     ID: 0
     myTurn: 0
-  - health: 20
+  - health: 10
     mana: 5
     ID: 1
     myTurn: 0

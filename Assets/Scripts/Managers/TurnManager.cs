@@ -28,11 +28,14 @@ public class TurnManager : MonoBehaviour
     {
         GameplayUIController.instance.UpdateCurrentPlayerTurn(currentPlayerTurn);
         PlayerManager.instance.AssignTurn(currentPlayerTurn);
+        CardManager.instance.ProcessStartTurn(currentPlayerTurn);
+
 
     }
 
     public void EndTurn()
     {
+        CardManager.instance.ProcessEndTurn(currentPlayerTurn);
         currentPlayerTurn = currentPlayerTurn == 0 ? 1 : 0;
         StartTurn();
     }
